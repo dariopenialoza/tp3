@@ -1,22 +1,15 @@
 import sys
 import numpy as np
 
-def compute_error2v(x, y, w1, w2):
-    error = 0
-    y_pred = np.array([0, 0, 0, 0])
-    for i in range(len(x)):
-        z = w1 * x[i, 0] + w2 * x[i, 1]
-        y_pred[i] = 1 if z >= 0 else 0
-        error += (y_pred[i] - y[i])**2
-    return error / len(x)
+from compute_error2v import compute_error2v
 
-def psAnd(dato_x,dato_y):
+def perceptron_simple2v(dato_x,dato_y):
     # Definir los datos de entrenamiento
     #x = np.array([[-1, 1], [1, -1], [-1, -1], [1, 1]])
     #y = np.array([-1, -1, -1, 1])
     x = dato_x
     y = dato_y
-    
+
     error = 0       
     min_error = sys.maxsize 
     w_min = np.array([0, 0])    

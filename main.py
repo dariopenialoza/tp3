@@ -5,16 +5,21 @@ import csv
 import sys
 sys.path.append("src")
 
-from src.psAND import psAnd
+from src.psAND import perceptron_simple2v
 
 def main():
-    # Definir los datos de entrenamiento
+    print("Función lógica AND")
     x = np.array([[-1, 1], [1, -1], [-1, -1], [1, 1]])
     y = np.array([-1, -1, -1, 1])
 
-    psAnd(x,y)
+    perceptron_simple2v(x,y)
+    
+    print("Función lógica XOR")
+    x = np.array([[-1, 1], [1, -1], [-1, -1], [1, 1]])
+    y = np.array([1, 1, -1, -1])
 
-#
+    perceptron_simple2v(x,y)
+    
 
 if __name__ == "__main__":
     main()
