@@ -14,7 +14,7 @@ def perceptron_simple2v(dato_x,dato_y):
     min_error = sys.maxsize 
     w_min = np.array([0, 0])    
     epoch = 1000    
-    c = 0           # corrida
+              # corrida
     # Inicializar los pesos aleatoriamente
     w1 = np.random.rand()
     w2 = np.random.rand()
@@ -24,6 +24,7 @@ def perceptron_simple2v(dato_x,dato_y):
 
     # Ciclo de entrenamiento
     for i in range(len(x)):
+        c = 0 
         while (min_error > 0) and (c < epoch):
             # Calcular la salida bruta
             z = w1 * x[i, 0] + w2 * x[i, 1]
