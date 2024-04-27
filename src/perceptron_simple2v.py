@@ -26,7 +26,7 @@ def perceptron_simple2v(dato_x,dato_y,eta,epoch):
 
             #print(f'z={z} : {w1} * {x[i, 0]} + {w2} * {x[i, 1]}')
             # Aplicar la función de activación escalón
-            y_pred = 1 if z >= 0 else 0
+            y_pred = 1 if z >= 0 else -1
 
             # Actualizar los pesos
             w1_new = w1 + eta * (y[i] - y_pred) * x[i, 0]
@@ -47,6 +47,6 @@ def perceptron_simple2v(dato_x,dato_y,eta,epoch):
             c += 1
 
     # Imprimir los pesos finales
-    print(f'Pesos finales: w1={w_min[0]} w2={w_min[1]}')
+    print(f'************ Pesos finales: w1={w_min[0]} w2={w_min[1]} ************')
 
     return w_min

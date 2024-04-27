@@ -19,18 +19,19 @@ def perceptron_simple_step(x, y, eta, epoch):
             z=0
             for i in range(x.shape[1]):
                 z = z + w[i] * x[u, i] 
-            #print(f'z={z}')
+
             # Aplicar la función de activación escalón
-            y_pred = 1 if z >= 0 else 0
+            y_pred = 1 if z >= 0 else -1
 
             # Actualizar los pesos
             for j in range(x.shape[1]):
                 w_new[j] = w[j] + eta * (y[u] - y_pred) * x[u, j]
-                # Actualizar los pesos
+                #print('Hubo diferencia') if (y[u] - y_pred) != 0 else print('No hubo diferencia')
+                #Actualizar los pesos
                 w[j] = w_new[j]
 
             error = compute_error_step(x, y, w)
-            #print(f'Pesos Nuevos: w1={w_min[0]} w2={w_min[1]} error={error}')
+
             if error < min_error:
                 min_error = error
                 w_min = w.copy()
@@ -41,6 +42,6 @@ def perceptron_simple_step(x, y, eta, epoch):
             c += 1
     
     # Imprimir los pesos finales
-    print(f'Pesos finales: {w_min}')
+    print(f'************ Pesos finales: {w_min} ************')
 
     return w_min
