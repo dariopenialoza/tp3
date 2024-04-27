@@ -41,12 +41,12 @@ def perceptron_simple2v(dato_x,dato_y,eta,epoch):
             if error < min_error:
                 min_error = error
                 w_min = [w1, w2]
-                print(f'En la corrida {c} del la fila {i} con error={error}')
-                print(f'guarde estos Pesos: w1={w_min[0]} w2={w_min[1]} ')
+                #print(f'En la corrida {c} del la fila {i} con error={error}')
+                #print(f'guarde estos Pesos: w1={w_min[0]} w2={w_min[1]} ')
 
             c += 1
 
     # Imprimir los pesos finales
-    print(f'************ Pesos finales: w1={w_min[0]} w2={w_min[1]} ************')
+    #print(f'************ Pesos finales: w1={w_min[0]} w2={w_min[1]} ************')
 
     return w_min

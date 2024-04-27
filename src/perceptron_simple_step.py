@@ -35,13 +35,13 @@ def perceptron_simple_step(x, y, eta, epoch):
             if error < min_error:
                 min_error = error
                 w_min = w.copy()
-                print(f'En la corrida {c} del la fila {u} con error={error}')
-                print(f'Guarde estos valores: {w_min}')
+                #print(f'En la corrida {c} del la fila {u} con error={error}')
+                #print(f'Guarde estos valores: {w_min}')
 
 
             c += 1
     
     # Imprimir los pesos finales
-    print(f'************ Pesos finales: {w_min} ************')
+    #print(f'************ Pesos finales: {w_min} ************')
 
     return w_min
