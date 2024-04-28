@@ -5,7 +5,7 @@ import csv
 import sys
 sys.path.append("src")
 
-from src.perceptron_simple2v import perceptron_simple2v
+from scratch.perceptron_simple2v import perceptron_simple2v
 from src.perceptron_simple_step import perceptron_simple_step
 from src.perceptron_simple_step_predictor import perceptron_simple_step_predictor
 
