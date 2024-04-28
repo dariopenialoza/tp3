@@ -48,15 +48,16 @@ def perceptron_simple_lineal(x, y, eta, epsilon, epoch):
     # Initialize weights randomly
     w = np.random.rand(x.shape[1])
     dw = np.zeros_like(w, dtype=np.float32)
-      
-   # Initialize variables for tracking minimum error and best weights
+    
+    #print(f'cantidad de filas={len(x)} ')  
+    # Initialize variables for tracking minimum error and best weights
     error = 0 
     min_error = np.inf  
     w_min = np.copy(w)
     c = 0
     while (min_error > epsilon) and (c < epoch):
         u = np.random.randint(0, len(x))
-        #print(f'u={u}')
+        #print(f'iteracion={c} u={u}')
         
         # Calcular la salida bruta
         h = np.dot(x[u], w)
