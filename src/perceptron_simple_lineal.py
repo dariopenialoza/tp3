@@ -78,7 +78,7 @@ def perceptron_simple_lineal(x1, y, eta, epsilon, epoch):
         o = h
         # Actualizar los pesos (using higher precision float type in calculations)
         diff = abs(y[u] - o)
-        dw = eta * diff * h * x[u]
+        dw = eta * diff  * x[u]     # dw = eta * (y[u] - o) * o' *x[u]  # 0'=1
         w = w + dw
         # Calculate error using mean squared error (MSE)
         error = compute_error_lineal(x,y,w)
