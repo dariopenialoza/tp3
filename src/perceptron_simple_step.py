@@ -68,11 +68,9 @@ def perceptron_simple_step(x, y, eta, epoch):
     while (min_error > 0) and (c < epoch):
         for u in range(len(x)):
             # Calcular la salida bruta
-            h = np.dot(w, x[u])
-
+            h = np.dot(x[u], w)
             # Aplicar la función de activación escalón
             o = 1 if h >= 0 else -1
-
             # Actualizar los pesos
             dw = eta * (y[u] - o) * x[u]
             w = w + dw
@@ -90,3 +88,4 @@ def perceptron_simple_step(x, y, eta, epoch):
         c +=1
 
     return w_min
+

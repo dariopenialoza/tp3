@@ -12,7 +12,7 @@ from src.perceptron_simple_step_predictor import perceptron_simple_step_predicto
 def main():
 
     eta = 0.1
-    epoch = 1000 
+    epoch = 1 
 
     print("Función lógica AND")
     x1 = np.array([[-1, 1], [1, -1], [-1, -1], [1, 1]])
