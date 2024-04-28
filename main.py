@@ -16,7 +16,7 @@ from src.perceptron_simple_step import perceptron_simple_step, perceptron_simple
 def main():
     print('TP 3: PERCEPTRON SIMPLE')
     eta = 0.01
-    epoch = 100
+    epoch = 1000
 
     print('EJERCIO 1')
 
@@ -41,7 +41,8 @@ def main():
 
     print("Generalizando con Perceptron Simple Escalon")
     y_res1 = perceptron_simple_step_predictor(x1, w1)
-    print(f"Entrada: {x1}")
+    print(f"Entrada: ")
+    print(x1)
     print(f"Resultado: {y_res1}")
 
     print()
@@ -60,7 +61,8 @@ def main():
 
     print("Generalizando con Perceptron Simple Escalon")
     y_res2 = perceptron_simple_step_predictor(x2, w2)
-    print(f"Entrada: {x2}")
+    print(f"Entrada: ")
+    print(x2)
     print(f"Resultado: {y_res2}")
 
     print()

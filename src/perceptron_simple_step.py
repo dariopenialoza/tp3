@@ -8,7 +8,7 @@ def compute_error_step(x, y, w):
         raise ValueError("Number of features in x must match the dimension of w.")
     if x.shape[0] != y.shape[0]:
         raise ValueError("Number of samples in x must match the number of labels in y.")
-
+    
     error = 0
     for u in range(len(x)):
         # Calculate weighted sums for all samples using vectorization
@@ -20,7 +20,12 @@ def compute_error_step(x, y, w):
     #print(f'error: {error}')
     return error
 
-def perceptron_simple_step_predictor(x,w):
+def perceptron_simple_step_predictor(x1,w):
+    # Create a column of 1s
+    ones_col = np.ones((x1.shape[0], 1), dtype=x1.dtype)
+    # Add the column of 1s to the beginning of the array
+    x = np.hstack((ones_col, x1))
+
     o = np.zeros_like(x[:, 0])
     for u in range(len(x)):
         # Calcular la salida bruta
@@ -31,13 +36,18 @@ def perceptron_simple_step_predictor(x,w):
  
     return o
 
-def perceptron_simple_step(x, y, eta, epoch):
+def perceptron_simple_step(x1, y, eta, epoch):
     # Check input data shapes and types
-    if not isinstance(x, np.ndarray) or not isinstance(y, np.ndarray):
+    if not isinstance(x1, np.ndarray) or not isinstance(y, np.ndarray):
         raise TypeError("Input arrays must be NumPy arrays.")
 
-    if len(x) != len(y):
+    if len(x1) != len(y):
         raise ValueError("Number of features in x must match the number of labels in y.")
+
+    # Create a column of 1s
+    ones_col = np.ones((x1.shape[0], 1), dtype=x1.dtype)
+    # Add the column of 1s to the beginning of the array
+    x = np.hstack((ones_col, x1))
 
     # Initialize weights randomly
     w = np.random.rand(x.shape[1])
