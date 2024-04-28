@@ -22,6 +22,6 @@ def compute_error_step(x, y, w):
         h = np.dot(x[u], w)
         o = 1 if h >= 0 else -1
         error += (y[u] - o)**2
-        print(f'error: {error}')
-    print(f'error medio: {error/len(x)}')
+        #print(f'error: {error}')
+    #print(f'error medio: {error/len(x)}')
     return error / len(x)

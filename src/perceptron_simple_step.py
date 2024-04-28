@@ -20,7 +20,8 @@ def perceptron_simple_step(x, y, eta, epoch):
     c = 0
     while (min_error > 0) and (c < epoch):
         u = np.random.randint(0, len(x))
-        print(f'u={u}')
+        #print(f'u={u}')
+        
         # Calcular la salida bruta
         h = np.dot(x[u], w)
         # Aplicar la función de activación escalón
@@ -36,8 +37,8 @@ def perceptron_simple_step(x, y, eta, epoch):
         if error < min_error:
             min_error = error
             w_min = np.copy(w)
-            print(f'En la corrida {c} del la fila {u} con error={error}')
-            print(f'Guarde estos valores: {w_min}')
+            #print(f'En la corrida {c} del la fila {u} con error={error}')
+            #print(f'Guarde estos valores: {w_min}')
 
         c +=1
 
