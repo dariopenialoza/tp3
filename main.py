@@ -13,7 +13,7 @@ from src.perceptron_simple_step import perceptron_simple_step, perceptron_simple
 
 def main():
     print('TP 3: PERCEPTRON SIMPLE')
-    eta = 0.1
+    eta = 0.001
     epoch = 100 
 
     print('EJERCIO 1')

@@ -1,13 +1,6 @@
 import numpy as np
 
 def compute_error_step(x, y, w):
-    """Calculates the mean squared error (MSE) using the step activation function.
-    Args:
-        x (numpy.ndarray): Input data (features) with shape (m, n), where m is the number of samples and n is the number of features.
-        y (numpy.ndarray): Target labels (ground truth) with shape (m,), where m is the number of samples.
-        w (numpy.ndarray): Weights vector with shape (n,), where n is the number of features.
-    """
-
     # Check input data shapes and types
     if not isinstance(x, np.ndarray) or not isinstance(y, np.ndarray) or not isinstance(w, np.ndarray):
         raise TypeError("Input arrays must be NumPy arrays.")
@@ -21,9 +14,18 @@ def compute_error_step(x, y, w):
         # Calculate weighted sums for all samples using vectorization
         h = np.dot(x[u], w)
         o = 1 if h >= 0 else -1
-        error += (y[u] - o)**2
+        diff = abs(y[u] - o)
+        error += diff
         #print(f'error: {error}')
     #print(f'error medio: {error/len(x)}')
+    return error / len(x)
+
+    for u in range(len(x)):
+        # Calculate weighted sums for all samples using vectorization
+        h = np.dot(x[u], w)
+        o = h
+        diff = abs(y[u] - o)  # Calculate absolute difference
+        error += diff
     return error / len(x)
 
 def perceptron_simple_step_predictor(x,w):
