@@ -42,7 +42,7 @@ def compute_error_lineal(x, y, w):
         o = h
         diff = abs(y[u] - o)  # Calculate absolute difference
         error += diff
-    return error / len(x)
+    return error
 
 def perceptron_simple_lineal(x, y, eta, epsilon, epoch):
     # Check input data shapes and types

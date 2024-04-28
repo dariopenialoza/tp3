@@ -15,18 +15,10 @@ def compute_error_step(x, y, w):
         h = np.dot(x[u], w)
         o = 1 if h >= 0 else -1
         diff = abs(y[u] - o)
+        #print(f'diff={diff}')
         error += diff
-        #print(f'error: {error}')
-    #print(f'error medio: {error/len(x)}')
-    return error / len(x)
-
-    for u in range(len(x)):
-        # Calculate weighted sums for all samples using vectorization
-        h = np.dot(x[u], w)
-        o = h
-        diff = abs(y[u] - o)  # Calculate absolute difference
-        error += diff
-    return error / len(x)
+    #print(f'error: {error}')
+    return error
 
 def perceptron_simple_step_predictor(x,w):
     o = np.zeros_like(x[:, 0])
