@@ -1,6 +1,6 @@
 import numpy as np
 
-def compute_error_step(x, y, w):
+def compute_error_lineal(x, y, w):
     """Calculates the mean squared error (MSE) using the step activation function.
     Args:
         x (numpy.ndarray): Input data (features) with shape (m, n), where m is the number of samples and n is the number of features.
@@ -20,24 +20,24 @@ def compute_error_step(x, y, w):
     for u in range(len(x)):
         # Calculate weighted sums for all samples using vectorization
         h = np.dot(x[u], w)
-        o = 1 if h >= 0 else -1
+        o = h
         error += (y[u] - o)**2
         #print(f'error: {error}')
     #print(f'error medio: {error/len(x)}')
     return error / len(x)
 
-def perceptron_simple_step_predictor(x,w):
+def perceptron_simple_lineal_predictor(x,w):
     o = np.zeros_like(x[:, 0])
     for u in range(len(x)):
         # Calcular la salida bruta
         h = np.dot(w, x[u])
 
         # Aplicar la función de activación escalón
-        o[u] = 1 if h >= 0 else -1
+        o[u] = h
  
     return o
 
-def perceptron_simple_step(x, y, eta, epoch):
+def perceptron_simple_lineal(x, y, eta, epsilon, epoch):
     # Check input data shapes and types
     if not isinstance(x, np.ndarray) or not isinstance(y, np.ndarray):
         raise TypeError("Input arrays must be NumPy arrays.")
@@ -54,20 +54,20 @@ def perceptron_simple_step(x, y, eta, epoch):
     min_error = np.inf  
     w_min = np.copy(w)
     c = 0
-    while (min_error > 0) and (c < epoch):
+    while (min_error > epsilon) and (c < epoch):
         u = np.random.randint(0, len(x))
         #print(f'u={u}')
         
         # Calcular la salida bruta
         h = np.dot(x[u], w)
         # Aplicar la función de activación escalón
-        o = 1 if h >= 0 else -1
+        o = h
         # Actualizar los pesos
-        dw = eta * (y[u] - o) * x[u]
+        dw = eta * (y[u] - o) * h * x[u]
         w = w + dw
 
         # Calculate error using mean squared error (MSE)
-        error = compute_error_step(x,y,w)
+        error = compute_error_lineal(x,y,w)
 
         # Update minimum error and best weights if current error is lower
         if error < min_error:

@@ -5,14 +5,18 @@ import csv
 import sys
 sys.path.append("src")
 
-from scratch.perceptron_simple2v import perceptron_simple2v
-from src.perceptron_simple_step import perceptron_simple_step
-from src.perceptron_simple_step_predictor import perceptron_simple_step_predictor
+#from scratch.perceptron_simple2v import perceptron_simple2v
+from src.perceptron_simple_step import perceptron_simple_step, perceptron_simple_step_predictor
+#from src.perceptron_simple_step_predictor import perceptron_simple_step_predictor
+
+
 
 def main():
-
+    print('TP 3: PERCEPTRON SIMPLE')
     eta = 0.1
     epoch = 10000 
+
+    print('EJERCIO 1')
 
     print("Función lógica AND")
     x1 = np.array([[-1, 1], [1, -1], [-1, -1], [1, 1]])
@@ -57,8 +61,8 @@ def main():
     print(f'Entrada: {x2}')
     print(f"Resultado: {y_res2}")
 
-
-    """
+    print('EJERCIO 2')
+    epsilon = 0.001
     # Ruta del archivo CSV
     archivo_csv = "TP3-ej2-conjunto.csv"
     # Leer datos CSV en un DataFrame de pandas
@@ -71,12 +75,6 @@ def main():
     # Extract target column (y) into 'y' array
     y = datos_array[:, -1]
 
-    eta = 0.1
-    epoch = 100  
-
-    print("Pesos para el conjunto de datos:")
-    perceptron_simple_step(x, y, eta, epoch)
-    """
 
 if __name__ == "__main__":
     main()
