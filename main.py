@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import numpy as np
 import pandas as pd
 
@@ -13,8 +15,8 @@ from src.perceptron_simple_step import perceptron_simple_step, perceptron_simple
 
 def main():
     print('TP 3: PERCEPTRON SIMPLE')
-    eta = 0.001
-    epoch = 100 
+    eta = 0.01
+    epoch = 1000
 
     print('EJERCIO 1')
 
@@ -30,7 +32,7 @@ def main():
     #print()
     print("Entrenando con Perceptron Simple Escalon")
     w1 = perceptron_simple_step(x1, y1, eta, epoch)
-    print(f'Pesos finales: {w1} ')
+    print(f"Pesos finales: {w1}")
 
     #print("Generalizando con Perceptron Simple 2V Escalon")
     #y_res1 = perceptron_simple_step_predictor(x1, w1v2)
@@ -39,7 +41,7 @@ def main():
 
     print("Generalizando con Perceptron Simple Escalon")
     y_res1 = perceptron_simple_step_predictor(x1, w1)
-    print(f'Entrada: {x1}')
+    print(f"Entrada: {x1}")
     print(f"Resultado: {y_res1}")
 
     print()
@@ -54,11 +56,11 @@ def main():
     #print()
     print("Entrenando con Perceptron Simple Escalon")
     w2 = perceptron_simple_step(x2, y2, eta, epoch)
-    print(f'Pesos finales: {w2} ')
+    print(f"Pesos finales: {w2}")
 
     print("Generalizando con Perceptron Simple Escalon")
     y_res2 = perceptron_simple_step_predictor(x2, w2)
-    print(f'Entrada: {x2}')
+    print(f"Entrada: {x2}")
     print(f"Resultado: {y_res2}")
 
     print()
@@ -78,7 +80,7 @@ def main():
 
     print("Entrenando con Perceptron Simple Lineal")
     w3 = perceptron_simple_lineal(x3, y3, eta, epsilon, epoch)
-    print(f'Pesos finales: {w3} ')
+    print(f"Pesos finales: {w3}")
 
 
 if __name__ == "__main__":
