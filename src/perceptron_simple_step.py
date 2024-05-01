@@ -8,7 +8,7 @@ def compute_error_step(x, y, w):
         raise ValueError("Number of features in x must match the dimension of w.")
     if x.shape[0] != y.shape[0]:
         raise ValueError("Number of samples in x must match the number of labels in y.")
-    
+    """
     error = 0
     for u in range(len(x)):
         # Calculate weighted sums for all samples using vectorization
@@ -18,6 +18,10 @@ def compute_error_step(x, y, w):
         #print(f'diff={diff}')
         error += diff
     #print(f'error: {error}')
+    """
+    h = np.dot(x, w)  # Calculate all weighted sums at once
+    o = np.where(h >= 0, 1, -1)  # Apply activation function vectorized
+    error = np.mean((y - o) ** 2)  # Calculate MSE using vectorized operations
     return error
 
 def perceptron_simple_step_predictor(x1,w):
@@ -77,8 +81,8 @@ def perceptron_simple_step(x1, y, eta, epoch):
         if error < min_error:
             min_error = error
             w_min = np.copy(w)
-            #print(f'En la corrida {c} del la fila {u} con error={error}')
-            #print(f'Guarde estos valores: {w_min}')
+            print(f'En la corrida {c} del la fila {u} con error={error} garde los pesos')
+            print(f'Guarde estos valores: {w_min}')
 
         c +=1
 
