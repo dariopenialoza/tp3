@@ -37,7 +37,6 @@ def perceptron_simple_step_predictor(x1,w):
 
         # Aplicar la función de activación escalón
         o[u] = 1 if h >= 0 else -1
- 
     return o
 
 def perceptron_simple_step(x1, y, eta, epoch):
