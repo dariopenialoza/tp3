@@ -2,7 +2,7 @@ import json
 
 def main3b():
     print('EJERCICIO 3 B')
-    with open('./config3.json', 'r') as f:
+    with open('./config3b.json', 'r') as f:
         configData = json.load(f)
         f.close()
         
