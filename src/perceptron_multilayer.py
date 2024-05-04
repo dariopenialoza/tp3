@@ -1,41 +1,74 @@
-def perceptron_multilayer(x1, y, eta, epsilon, epoch):
-    # Check input data shapes and types
-    if not isinstance(x1, np.ndarray) or not isinstance(y, np.ndarray):
-        raise TypeError("Input arrays must be NumPy arrays.")
-    if len(x1) != len(y):
-        raise ValueError("Number of features in x must match the number of labels in y.")
-    
-    # Create a column of 1s
-    ones_col = np.ones((x1.shape[0], 1), dtype=x1.dtype)
-    # Add the column of 1s to the beginning of the array
-    x = np.hstack((ones_col, x1))
-    #print(x[:5, :])
+import numpy as np
 
-    # Initialize weights randomly using higher precision float type (float64)
-    w = np.random.rand(x.shape[1]).astype(np.float64)
-    dw = np.zeros_like(w, dtype=np.float64)
-    # Initialize variables for tracking minimum error and best weights
-    error = 0.0
-    min_error = np.inf
-    w_min = np.copy(w)
-    c = 0
-    while (min_error > epsilon) and (c < epoch):
-        u = np.random.randint(0, len(x))
-        # Calcular la salida bruta
-        h = np.dot(x[u], w)
-        # Aplicar la función de activación lineal (identity function)
-        o = h
-        # Actualizar los pesos (using higher precision float type in calculations)
-        diff = abs(y[u] - o)
-        dw = eta * diff  * x[u]     # dw = eta * (y[u] - o) * o' *x[u]  # 0'=1
-        w = w + dw
-        # Calculate error using mean squared error (MSE)
-        error = compute_error_lineal(x,y,w)
-        # Update minimum error and best weights if current error is lower
-        if error < min_error:
-            min_error = error
-            w_min = np.copy(w)
-            print(f'En la corrida {c} del la fila {u} con error={error}')
-            print(f'Guarde estos valores: {w_min}')
-        c +=1
-    return w_min
+
+def compute_error_lineal(x, y, w):
+    return
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+def der_sigmoid(x):
+    return sigmoid(x) * (1 - sigmoid(x))
+
+def tanh_act(x):
+    return np.tanh(1 * x)
+
+
+def der_tanh_act(x):
+    return 1 / ((np.cosh(x)) ** 2)
+
+class MultiLayerPerceptron:
+    def __init__(self, inputNeuronas, hiddenNeuronas, outputNeuronas, epochs, epsilon, activation_function = sigmoid, der_activation_function = der_sigmoid):
+        self.inputNeuronas = inputNeuronas
+        self.output_size = outputNeuronas
+        self.layers = []
+        self.epochs = epochs
+        self.epsilon = epsilon
+        previous_layer_size = inputNeuronas
+        #crea cada layer
+        for layer_size in hiddenNeuronas:
+            self.layers.append(NeuronLayer(previous_layer_size, layer_size, activation_function, der_activation_function))
+            previous_layer_size = layer_size
+        self.layers.append(NeuronLayer(previous_layer_size, outputNeuronas, activation_function, der_activation_function))
+
+    def train(self, inputs, targets, eta):
+        c = 0
+        while c in range(self.epochs):
+            total_error = 0
+            for x, y in (inputs, targets):
+                predicted = self.predict(inputs)
+                error = np.mean((predicted - y) ** 2) / 2
+                total_error += error
+                delta = predicted - y
+                for layer in reversed(self.layers):
+                    delta = layer.backward(delta, eta)
+            if total_error < self.epsilon:
+                print(f"{c}")
+                break
+            elif c % 100 == 0:
+                print(f"error: {total_error}")
+            c +=1
+            
+    def predict(self, inputs_data):
+        #revisar!!!! me parece que seria distinto, sino no llegaria nunca
+        activations = inputs_data
+        for layer in self.layers:
+            activations = layer.forward(activations)
+        return activations
+                
+class NeuronLayer:
+    def __init__(self, inputNeuronas, outputNeuronas, activation_f, der_activation_f):
+        self.inputNeuronas = inputNeuronas
+        self.outputNeuronas = outputNeuronas
+        self.activation_function = activation_f
+        self.der_activation_function = der_activation_f
+        # inicializa con pequeños pesoss los w
+        self.weights = np.random.rand(inputNeuronas + 1, outputNeuronas) * 0.1 - 0.05  
+        
+    def backward():
+        # hace el back
+        return
+    
+    def forward():
+        # hace el forward
+        return
