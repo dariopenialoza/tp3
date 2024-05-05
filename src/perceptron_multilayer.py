@@ -66,7 +66,6 @@ class MultiLayerPerceptron:
     
     def train_k(self, k_index):
         ERROR = 1
-        epoch = 0
         mse_errors = []
         
         # Se mezclan aleatoriamente los datos de entrada y los datos esperados 
@@ -90,7 +89,7 @@ class MultiLayerPerceptron:
         
         # entreno el modelo por todos los grupos excepto el actual que lo uso como prueba
         for j in range(k_index):
-            
+            epoch = 0
             input_train = np.concatenate([subconjuntos[i] for i in range(k_index) if i != j])
             expected_train = np.concatenate([subconjuntos_salida[i] for i in range(k_index) if i != j])
             trainSize = len(input_train)
