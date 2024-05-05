@@ -15,6 +15,7 @@ def main3b():
     learningRate = configData["learningRate"]
     hiddenLayers = configData["hiddenLayers"]
     nodesInHiddenLayers = configData["nodesInHiddenLayers"]
+    k_index = configData["nodesInHiddenLayers"]
     
     input = parse_file('./TP3-ej3-digitos.txt')
     expectedOutput = np.array([-1, 1, -1, 1, -1, 1, -1, 1, -1, 1])
@@ -22,7 +23,7 @@ def main3b():
     mlp = MultiLayerPerceptron(input, expectedOutput, epochs, epsilon, learningRate, hiddenLayers, nodesInHiddenLayers)
     
     # Entreno el perceptron
-    #mse = mlp.train()
+    mse = mlp.train_k(k_index)
     
     """ i = 0
     while i < len(y2):

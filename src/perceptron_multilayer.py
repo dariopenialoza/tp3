@@ -63,7 +63,70 @@ class MultiLayerPerceptron:
         self.mse = mse_errors[epoch - 1]
                 
         return self.mse
+    
+    def train_k(self, k_index):
+        ERROR = 1
+        epoch = 0
+        mse_errors = []
+        
+        # Se mezclan aleatoriamente los datos de entrada y los datos esperados 
+        # Los datos mezclados se dividen en "k" grupos o "folds". 
+        # Cada grupo contiene una porción de los datos originales.
+        # Orden deseado de los índices
+        orden_indices = np.random.permutation(10)
+        
+        # Reorganizar los vectores de entrada de acuerdo con el nuevo orden
+        entrada_ordenada = self.inputData[orden_indices]
+        # Reorganizar el vector de salida de acuerdo con el nuevo orden
+        salida_ordenada = self.expectedOutput[orden_indices]
+    
+        # Dividir el conjunto ordenado en 4 subconjuntos
+        subconjuntos = np.array_split(entrada_ordenada, k_index)
+        subconjuntos_salida = np.array_split(salida_ordenada, k_index)
+        
+        # Imprimir los subconjuntos
+        print(subconjuntos)
+        print(subconjuntos_salida)
+        
+        # entreno el modelo por todos los grupos excepto el actual que lo uso como prueba
+        for j in range(k_index):
+            
+            input_train = np.concatenate([subconjuntos[i] for i in range(k_index) if i != j])
+            expected_train = np.concatenate([subconjuntos_salida[i] for i in range(k_index) if i != j])
+            trainSize = len(input_train)
+            while ERROR > self.epsilon and epoch < self.epochs:
                 
+                wfinal = []
+                # PARA CADA NODO
+                for i in range(trainSize):
+                    # Forward activation
+                    activations = self.activate(input_train[i])
+                    wfinal.append(activations[-1])
+
+                    # Calcula el error para el output layer
+                    self.layers[-1].error(expected_train[i] - wfinal[i], wfinal[i])
+                    
+                    # Backward propagation
+                    for i in range(len(self.layers) - 2, -1, -1):
+                        inherit_layer = self.layers[i + 1]
+                        self.layers[i].error(np.dot(inherit_layer.weights,inherit_layer.error_d), activations[i + 1])
+
+                    for i in range(len(self.layers)):
+                        self.layers[i].delta(activations[i], self.learningRate)
+
+                mse_errors.append(self.mid_square_error(wfinal, expected_train))
+                ERROR = mse_errors[-1]
+                
+                if epoch % 100 == 0:
+                    print(f'Actual epoch: {epoch}') 
+                    
+                epoch += 1
+
+        self.mse = mse_errors[epoch - 1]
+                
+        return self.mse
+    
+    
     def activate(self, init_input):
         activations = [init_input]
         
