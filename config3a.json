@@ -1,7 +1,9 @@
 {
-    "epoch": 1000,
-    "eta": 0.01,
+    "epochs": 10000,
     "epsilon": 0.00001,
-    "f1": "sigmoid"
-
+    "f1": "sigmoid",
+    "learningRate": 0.001,
+    "hiddenLayers": 1,
+    "nodesInHiddenLayers": 4,
+    "min_error": 0.01
 }

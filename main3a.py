@@ -10,36 +10,31 @@ def main3a():
         configData = json.load(f)
         f.close()
         
-    epoch = configData["epoch"]
-    eta = configData["eta"]
+    epochs = configData["epochs"]
     epsilon = configData["epsilon"]
     f1 = configData["f1"]
-    
-    hidden_size = 2
-    
-    # numero de neuronas en capa oculta.
-    hiddenNeuronas = [1]
-    # numero de neuronas en capa salida
-    outputNeuronas =1
+    learningRate = configData["learningRate"]
+    hiddenLayers = configData["hiddenLayers"]
+    nodesInHiddenLayers = configData["nodesInHiddenLayers"]
     
     print("Función lógica XOR")
-    x2 = np.array([[-1, 1], [1, -1], [-1, -1], [1, 1]])
-    y2 = np.array([1, 1, -1, -1])
+    input = np.array([[-1, 1], [1, -1], [-1, -1], [1, 1]])
+    expectedOutput = np.array([1, 1, -1, -1])
     
-    inputNeuronas = x2.shape[1]
-    mlp = MultiLayerPerceptron(x2, y2, eta, inputNeuronas, hiddenNeuronas, outputNeuronas, epoch, epsilon, f1)
+    print(input)
+    print(expectedOutput)
+    mlp = MultiLayerPerceptron(input, expectedOutput, epochs, epsilon, learningRate, hiddenLayers, nodesInHiddenLayers)
     
     # Entreno el perceptron
-    errores = mlp.train()
+    mse = mlp.train()
     
-    
-    i = 0
+    """ i = 0
     while i < len(y2):
         print("input: ", x2[i])
         print("expected: ", y2[i])
         print("prediction: ", mlp.predict(x2[i]))
-        i += 1
-
-
+        i += 1 """
+    print(f'mse: {mse}')
+    #TODO accuracy
 if __name__ == "__main__":
     main3a()
