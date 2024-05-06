@@ -60,6 +60,8 @@ class MultiLayerPerceptron:
                 
             epoch += 1
 
+        test = self.predict(self.inputData, self.expectedOutput)
+        
         self.mse = mse_errors[epoch - 1]
                 
         return self.mse
@@ -143,7 +145,7 @@ class MultiLayerPerceptron:
         for i in range(len(inputs_data)):
             activations = self.activate(inputs_data[i])
             
-            print(activations[-1][0])
+            print(f'output value: {activations[-1][0]}')
             # comparo cual de los dos valores obtuvo la red
             j =  (np.abs(outputValuesExpected-activations[-1][0])).argmin()
             
@@ -152,6 +154,8 @@ class MultiLayerPerceptron:
                 predicted += 1 
         
         print(f'acertados: {predicted}')
+        
+        #calculo el error
         w = []
         for i in range(len(inputs_data)):
             activations = self.activate(inputs_data[i])
