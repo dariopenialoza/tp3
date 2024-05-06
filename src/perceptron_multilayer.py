@@ -120,8 +120,10 @@ class MultiLayerPerceptron:
                     print(f'Actual epoch: {epoch}') 
                     
                 epoch += 1
+            
+            test = self.predict(subconjuntos[i], subconjuntos_salida[i])
 
-        self.mse = mse_errors[epoch - 1]
+            self.mse = mse_errors[epoch - 1]
                 
         return self.mse
     
@@ -133,12 +135,30 @@ class MultiLayerPerceptron:
             activations.append(self.layers[layer].activate(activations[-1]))
         return activations
             
-    def predict(self, inputs_data):
+    def predict(self, inputs_data, expected_data):
         #revisar!!!! me parece que seria distinto, sino no llegaria nunca
-        output = inputs_data
-        for layer in self.layers:
-            output = layer.forward_propagation(output)
-        return output
+        #salida por cada perceptron
+        predicted = 0
+        outputValuesExpected = [-1, 1]
+        for i in range(len(inputs_data)):
+            activations = self.activate(inputs_data[i])
+            
+            print(activations[-1][0])
+            # comparo cual de los dos valores obtuvo la red
+            j =  (np.abs(outputValuesExpected-activations[-1][0])).argmin()
+            
+            #verifica si coincide lo expulsado con lo esperado
+            if outputValuesExpected[j] == expected_data[i]:
+                predicted += 1 
+        
+        print(f'acertados: {predicted}')
+        w = []
+        for i in range(len(inputs_data)):
+            activations = self.activate(inputs_data[i])
+            w.append(activations[-1])
+        predict_mse = self.mid_square_error(w, expected_data)
+        
+        print(f'mse: {predict_mse}')
     
     def backward_propagation(self, predicted, expected, learningRate):
         delta = expected - predicted
