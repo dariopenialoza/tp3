@@ -1,25 +1,7 @@
 import random
 import numpy as np
-"""
-def compute_error_lineal2(x, y, w):
-    # Check input data shapes and types
-    if not isinstance(x, np.ndarray) or not isinstance(y, np.ndarray) or not isinstance(w, np.ndarray):
-        raise TypeError("Input arrays must be NumPy arrays.")
-    if x.shape[1] != w.shape[0]:
-        raise ValueError("Number of features in x must match the dimension of w.")
-    if x.shape[0] != y.shape[0]:
-        raise ValueError("Number of samples in x must match the number of labels in y.")
-    
-    error = 0.0  # Initialize error with float type to avoid overflow
-    for u in range(len(x)):
-        # Calculate weighted sums for all samples using vectorization
-        h = np.dot(x[u], w)
-        o = h
-        diff = y[u] - o
-        error += diff * diff
-    return error / len(x)
-"""
-def perceptron_simple_lineal_predictor(x1, w):
+
+def perceptron_simple_nolineal_predictor(x1, w):
     # Create a column of 1s
     ones_col = np.ones((x1.shape[0], 1), dtype=x1.dtype)
     # Add the column of 1s to the beginning of the array
@@ -30,10 +12,10 @@ def perceptron_simple_lineal_predictor(x1, w):
         # Calcular la salida bruta
         h = np.dot(w, x[u])
         # Aplicar la función de activación lineal (identity function)
-        o[u] = h
+        o[u] = 1 / (1 + np.exp(-2 * h))
     return o
 
-def compute_error_lineal(x, y, w):
+def compute_error_nolineal(x, y, w):
     # Check input data shapes and types
     if not isinstance(x, np.ndarray) or not isinstance(y, np.ndarray) or not isinstance(w, np.ndarray):
         raise TypeError("Input arrays must be NumPy arrays.")
@@ -49,11 +31,11 @@ def compute_error_lineal(x, y, w):
         diff = abs(y[u] - o)  # Calculate absolute difference
         error += diff"""
     h = np.dot(x, w)  # Calculate all weighted sums at once
-    o = np.where(h >= 0, 1, -1)  # Apply activation function vectorized
+    o = 1 / (1 + np.exp(-2 * h))
     error = np.mean((y - o) ** 2)  # Calculate MSE using vectorized operations
     return error
 
-def perceptron_simple_lineal(x1, y, eta, epsilon, epoch):
+def perceptron_simple_nolineal(x1, y, eta, epsilon, epoch):
     # Check input data shapes and types
     if not isinstance(x1, np.ndarray) or not isinstance(y, np.ndarray):
         raise TypeError("Input arrays must be NumPy arrays.")
@@ -79,13 +61,13 @@ def perceptron_simple_lineal(x1, y, eta, epsilon, epoch):
         # Calcular la salida bruta
         h = np.dot(x[u], w)
         # Aplicar la función de activación lineal (identity function)
-        o = h
+        o = 1 / (1 + np.exp(-2 * h))
         # Actualizar los pesos (using higher precision float type in calculations)
         diff = abs(y[u] - o)
-        dw = eta * diff  * x[u]     # dw = eta * (y[u] - o) * o' *x[u]  # 0'=1
+        dw = eta * diff * (2 * np.exp(-2 * h)) / ((1 + np.exp(-2 * h)) **2) * x[u]     # dw = eta * (y[u] - o) * o' *x[u]  # 0'=1
         w = w + dw
         # Calculate error using mean squared error (MSE)
-        error = compute_error_lineal(x,y,w)
+        error = compute_error_nolineal(x,y,w)
         # Update minimum error and best weights if current error is lower
         if error < min_error:
             min_error = error
@@ -112,7 +94,7 @@ def getTrainingSet(x,y,k):
     #print(subconjuntos_salida)
     return subconjuntos, subconjuntos_salida
 
-def perceptron_simple_lineal_k(x1, y, eta, epsilon, epoch):
+def perceptron_simple_nolineal_k(x1, y, eta, epsilon, epoch):
     # Check input data shapes and types
     if not isinstance(x1, np.ndarray) or not isinstance(y, np.ndarray):
         raise TypeError("Input arrays must be NumPy arrays.")
@@ -141,13 +123,13 @@ def perceptron_simple_lineal_k(x1, y, eta, epsilon, epoch):
             # Calcular la salida bruta
             h = np.dot(sub_x[0][u], w)
             # Aplicar la función de activación lineal (identity function)
-            o = h
+            o = 1 / (1 + np.exp(-2 * h))
             # Actualizar los pesos (using higher precision float type in calculations)
-            diff = abs(sub_y[0][u] - o)
-            dw = eta * diff  * sub_x[0][u]     # dw = eta * (y[u] - o) * o' *x[u]  # 0'=1
+            diff = abs(y[u] - o)
+            dw = eta * diff * (2 * np.exp(-2 * h)) / ((1 + np.exp(-2 * h)) **2) * x[u]     # dw = eta * (y[u] - o) * o' *x[u]  # 0'=1
             w = w + dw
             # Calculate error using mean squared error (MSE)
-            error = compute_error_lineal(sub_x[0],sub_y[0],w)
+            error = compute_error_nolineal(sub_x[0],sub_y[0],w)
             # Update minimum error and best weights if current error is lower
             if error < min_error:
                 min_error = error
