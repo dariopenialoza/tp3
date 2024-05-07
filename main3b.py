@@ -23,14 +23,8 @@ def main3b():
     mlp = MultiLayerPerceptron(input, expectedOutput, epochs, epsilon, learningRate, hiddenLayers, nodesInHiddenLayers)
     
     # Entreno el perceptron
-    mse = mlp.train_k(k_index)
-    
-    """ i = 0
-    while i < len(y2):
-        print("input: ", x2[i])
-        print("expected: ", y2[i])
-        print("prediction: ", mlp.predict(x2[i]))
-        i += 1 """
+    mse = mlp.train_k(k_index,2)
+
     #print(f'mse: {mse}')
     #TODO accuracy 
     
@@ -56,5 +50,6 @@ def parse_file(srcFile):
     grouped_matrix = np.array(grouped_rows)
     
     return grouped_matrix
+
 if __name__ == "__main__":
     main3b()

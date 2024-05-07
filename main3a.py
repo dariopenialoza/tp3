@@ -27,14 +27,9 @@ def main3a():
     
     # Entreno el perceptron
     mse = mlp.train()
-    
-    """ i = 0
-    while i < len(y2):
-        print("input: ", x2[i])
-        print("expected: ", y2[i])
-        print("prediction: ", mlp.predict(x2[i]))
-        i += 1 """
+
     print(f'mse: {mse}')
     #TODO accuracy
+    
 if __name__ == "__main__":
     main3a()
