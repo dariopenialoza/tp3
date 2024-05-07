@@ -6,13 +6,13 @@ import pandas as pd
 import sys
 sys.path.append("src")
 from src.perceptron_simple_nolineal import perceptron_simple_nolineal, perceptron_simple_nolineal_k
-#from scratch.perceptron_simple2v import perceptron_simple2v
 from src.perceptron_simple_lineal import perceptron_simple_lineal, perceptron_simple_lineal_k
 
 def main2():
-    print('TP 3: PERCEPTRON SIMPLE')
-    eta = 0.01
-    epoch = 1000
+
+    beta = 1.0
+    learning_rate = 0.1
+    epoch = 100
 
     print('EJERCIO 2')
     epsilon = 0.01
@@ -29,20 +29,20 @@ def main2():
     y3 = datos_array[:, -1]
 
     print("Entrenando con Perceptron Simple Lineal")
-    w3 = perceptron_simple_lineal(x3, y3, eta, epsilon, epoch)
-    print(f"Pesos finales: {w3}")
+    w3, error3 = perceptron_simple_lineal(x3, y3, learning_rate, epsilon, epoch)
+    print(f"Pesos finales: {w3}, error: {error3}")
 
     print("Entrenando con Perceptron Simple Lineal K")
-    w4 = perceptron_simple_lineal_k(x3, y3, eta, epsilon, epoch)
-    print(f"Pesos finales: {w4}")
+    w4, error4 = perceptron_simple_lineal_k(x3, y3, learning_rate, epsilon, epoch)
+    print(f"Pesos finales: {w4}, error: {error4}")
 
     print("Entrenando con Perceptron Simple No Lineal")
-    w5 = perceptron_simple_nolineal(x3, y3, eta, epsilon, epoch)
-    print(f"Pesos finales: {w5}")
+    w5, error5 = perceptron_simple_nolineal(x3, y3, beta, learning_rate, epsilon, epoch)
+    print(f"Pesos finales: {w5}, error: {error5}")
 
     print("Entrenando con Perceptron Simple No Lineal K")
-    w6 = perceptron_simple_nolineal_k(x3, y3, eta, epsilon, epoch)
-    print(f"Pesos finales: {w6}")
+    w6, error6 = perceptron_simple_nolineal_k(x3, y3, beta, learning_rate, epsilon, epoch)
+    print(f"Pesos finales: {w6}, error: {error6}")
 
 
 if __name__ == "__main__":

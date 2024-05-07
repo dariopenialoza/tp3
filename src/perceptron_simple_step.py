@@ -70,7 +70,7 @@ def perceptron_simple_step(x1, y, eta, epoch):
         # Aplicar la función de activación escalón
         o = 1 if h >= 0 else -1
         # Actualizar los pesos
-        dw = eta * (y[u] - o) * x[u]
+        dw =  eta * (y[u] - o) * x[u]
         w = w + dw
 
         # Calculate error using mean squared error (MSE)
@@ -80,10 +80,10 @@ def perceptron_simple_step(x1, y, eta, epoch):
         if error < min_error:
             min_error = error
             w_min = np.copy(w)
-            print(f'En la corrida {c} del la fila {u} con error={error} garde los pesos')
-            print(f'Guarde estos valores: {w_min}')
+            #print(f'En la corrida {c} del la fila {u} con error={error} garde los pesos')
+            #print(f'Guarde estos valores: {w_min}')
 
         c +=1
 
-    return w_min
+    return w_min, min_error
 

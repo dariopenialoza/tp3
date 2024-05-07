@@ -13,8 +13,8 @@ from src.perceptron_simple_step import perceptron_simple_step, perceptron_simple
 
 
 
-def main():
-    print('TP 3: PERCEPTRON SIMPLE')
+def main1():
+    
     eta = 0.01
     epoch = 1000
 
@@ -31,8 +31,8 @@ def main():
     #w1v2 = perceptron_simple2v(x1,y1,eta,epoch)
     #print()
     print("Entrenando con Perceptron Simple Escalon")
-    w1 = perceptron_simple_step(x1, y1, eta, epoch)
-    print(f"Pesos finales: {w1}")
+    w1, error = perceptron_simple_step(x1, y1, eta, epoch)
+    print(f"Pesos finales: {w1}, error: {error}")
 
     #print("Generalizando con Perceptron Simple 2V Escalon")
     #y_res1 = perceptron_simple_step_predictor(x1, w1v2)
@@ -56,8 +56,8 @@ def main():
     #perceptron_simple2v(x2,y2,eta,epoch)
     #print()
     print("Entrenando con Perceptron Simple Escalon")
-    w2 = perceptron_simple_step(x2, y2, eta, epoch)
-    print(f"Pesos finales: {w2}")
+    w2, error2 = perceptron_simple_step(x2, y2, eta, epoch)
+    print(f"Pesos finales: {w2}, error: {error2}")
 
     print("Generalizando con Perceptron Simple Escalon")
     y_res2 = perceptron_simple_step_predictor(x2, w2)
@@ -65,25 +65,5 @@ def main():
     print(x2)
     print(f"Resultado: {y_res2}")
 
-    print()
-    print('EJERCIO 2')
-    epsilon = 0.01
-    # Ruta del archivo CSV
-    archivo_csv = "TP3-ej2-conjunto.csv"
-    # Leer datos CSV en un DataFrame de pandas
-    datos_df = pd.read_csv(archivo_csv)
-    # Convertir DataFrame a un array de NumPy
-    datos_array = datos_df.to_numpy()
-    # Extract feature columns (x1, x2, x3) into 'x' array
-    x3 = datos_array[:, :-1]  # Assuming 'y' is the last column
-
-    # Extract target column (y) into 'y' array
-    y3 = datos_array[:, -1]
-
-    print("Entrenando con Perceptron Simple Lineal")
-    w3 = perceptron_simple_lineal(x3, y3, eta, epsilon, epoch)
-    print(f"Pesos finales: {w3}")
-
-
 if __name__ == "__main__":
-    main()
+    main1()
