@@ -1,3 +1,10 @@
 {
-    
+    "epochs": 1000,
+    "epsilon": 0.00001,
+    "f1": "sigmoid",
+    "learningRate": 0.001,
+    "hiddenLayers": 1,
+    "nodesInHiddenLayers": 10,
+    "min_error": 0.01,
+    "k_index": 4
 }

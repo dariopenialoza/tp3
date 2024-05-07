@@ -26,11 +26,15 @@ class MultiLayerPerceptron:
             previous_layer_size = layer_size
         self.layers.append(NeuronLayer(previous_layer_size, outputNeuronas, activation_function, der_activation_function)) """
             
-    def train(self):
+    def train(self, ej):
         trainSize = len(self.inputData)
         ERROR = 1
         epoch = 0
         mse_errors = []
+        
+        print(self.inputData)
+        print(self.expectedOutput)
+            
         
         while ERROR > self.epsilon and epoch < self.epochs:
             
@@ -60,6 +64,8 @@ class MultiLayerPerceptron:
                 
             epoch += 1
 
+        test = self.predict(self.inputData, self.expectedOutput, ej)
+        
         self.mse = mse_errors[epoch - 1]
                 
         return self.mse
@@ -135,23 +141,34 @@ class MultiLayerPerceptron:
             activations.append(self.layers[layer].activate(activations[-1]))
         return activations
             
-    def predict(self, inputs_data, expected_data):
+    def predict(self, inputs_data, expected_data, ej):
         #revisar!!!! me parece que seria distinto, sino no llegaria nunca
         #salida por cada perceptron
         predicted = 0
-        outputValuesExpected = [-1, 1]
-        for i in range(len(inputs_data)):
-            activations = self.activate(inputs_data[i])
-            
-            print(activations[-1][0])
-            # comparo cual de los dos valores obtuvo la red
-            j =  (np.abs(outputValuesExpected-activations[-1][0])).argmin()
-            
-            #verifica si coincide lo expulsado con lo esperado
-            if outputValuesExpected[j] == expected_data[i]:
-                predicted += 1 
+        if(ej == 2):       
+            outputValuesExpected = [-1, 1]
+            for i in range(len(inputs_data)):
+                activations = self.activate(inputs_data[i])
+                
+                print(f'output value: {activations[-1][0]}')
+                # comparo cual de los dos valores obtuvo la red
+                j =  (np.abs(outputValuesExpected-activations[-1][0])).argmin()
+                
+                #verifica si coincide lo expulsado con lo esperado
+                if outputValuesExpected[j] == expected_data[i]:
+                    predicted += 1 
+        else:
+            for i in range(len(inputs_data)):
+                activations = self.activate(inputs_data[i])
+                maxIdx = activations[-1].argmax()
+                if expected_data[j][maxIdx] == 1:
+                    predicted += 1 
+
+
         
         print(f'acertados: {predicted}')
+        
+        #calculo el error
         w = []
         for i in range(len(inputs_data)):
             activations = self.activate(inputs_data[i])
