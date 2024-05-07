@@ -1,6 +1,13 @@
 import random
 import numpy as np
 
+def norm_to_im(x,y,a,b):
+    y_min = np.min(y)
+    y_max = np.max(y)
+    y = ((y -y_min)/(y_max - y_min)) * (b-a)+a
+    x = ((x -y_min)/(y_max - y_min)) * (b-a)+a
+    return x, y
+
 def perceptron_simple_nolineal_predictor(x1, w, beta):
     # Create a column of 1s
     ones_col = np.ones((x1.shape[0], 1), dtype=x1.dtype)
@@ -35,13 +42,15 @@ def compute_error_nolineal(x, y, w, beta):
     error = np.mean((y - o) ** 2)  # Calculate MSE using vectorized operations
     return error
 
-def perceptron_simple_nolineal(x1, y, beta, learning_rate, epsilon, epoch):
+def perceptron_simple_nolineal(x0, y0, beta, learning_rate, epsilon, epoch):
     # Check input data shapes and types
-    if not isinstance(x1, np.ndarray) or not isinstance(y, np.ndarray):
+    if not isinstance(x0, np.ndarray) or not isinstance(y0, np.ndarray):
         raise TypeError("Input arrays must be NumPy arrays.")
-    if len(x1) != len(y):
+    if len(x0) != len(y0):
         raise ValueError("Number of features in x must match the number of labels in y.")
     
+    x1, y = norm_to_im(x0, y0, -1, 1)
+
     # Create a column of 1s
     ones_col = np.ones((x1.shape[0], 1), dtype=x1.dtype)
     # Add the column of 1s to the beginning of the array
@@ -76,13 +85,15 @@ def perceptron_simple_nolineal(x1, y, beta, learning_rate, epsilon, epoch):
         c +=1
     return w_min, min_error
 
-def perceptron_simple_nolineal_u(x1, y, beta, learning_rate, epsilon, epoch):
+def perceptron_simple_nolineal_u(x0, y0, beta, learning_rate, epsilon, epoch):
     # Check input data shapes and types
-    if not isinstance(x1, np.ndarray) or not isinstance(y, np.ndarray):
+    if not isinstance(x0, np.ndarray) or not isinstance(y0, np.ndarray):
         raise TypeError("Input arrays must be NumPy arrays.")
-    if len(x1) != len(y):
+    if len(x0) != len(y0):
         raise ValueError("Number of features in x must match the number of labels in y.")
     
+    x1, y = norm_to_im(x0, y0, -1, 1)
+
     # Create a column of 1s
     ones_col = np.ones((x1.shape[0], 1), dtype=x1.dtype)
     # Add the column of 1s to the beginning of the array
@@ -137,13 +148,15 @@ def getTrainingSet(x,y,k):
     #print(f'div_y {div_y}')
     return div_x, div_y
 
-def perceptron_simple_nolineal_k(x1, y, beta, learning_rate, epsilon, epoch):
+def perceptron_simple_nolineal_k(x0, y0, beta, learning_rate, epsilon, epoch):
     # Check input data shapes and types
-    if not isinstance(x1, np.ndarray) or not isinstance(y, np.ndarray):
+    if not isinstance(x0, np.ndarray) or not isinstance(y0, np.ndarray):
         raise TypeError("Input arrays must be NumPy arrays.")
-    if len(x1) != len(y):
+    if len(x0) != len(y0):
         raise ValueError("Number of features in x must match the number of labels in y.")
     
+    x1, y = norm_to_im(x0, y0, -1, 1)
+
     # Create a column of 1s
     ones_col = np.ones((x1.shape[0], 1), dtype=x1.dtype)
     # Add the column of 1s to the beginning of the array

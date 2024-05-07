@@ -16,7 +16,7 @@ from src.perceptron_simple_step import perceptron_simple_step, perceptron_simple
 def main1():
     
     eta = 0.01
-    epoch = 1000
+    epoch = 2500
 
     print('EJERCIO 1')
 

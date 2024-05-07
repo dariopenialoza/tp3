@@ -11,8 +11,8 @@ from src.perceptron_simple_lineal import perceptron_simple_lineal, perceptron_si
 def main2():
 
     beta = 1.0
-    learning_rate = 0.1
-    epoch = 100
+    learning_rate = 0.01
+    epoch = 2500
 
     print('EJERCIO 2')
     epsilon = 0.01

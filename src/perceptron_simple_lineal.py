@@ -19,6 +19,7 @@ def compute_error_lineal2(x, y, w):
         error += diff * diff
     return error / len(x)
 """
+
 def perceptron_simple_lineal_predictor(x1, w):
     # Create a column of 1s
     ones_col = np.ones((x1.shape[0], 1), dtype=x1.dtype)
@@ -66,7 +67,7 @@ def perceptron_simple_lineal(x1, y, learning_rate, epsilon, epoch):
         raise TypeError("Input arrays must be NumPy arrays.")
     if len(x1) != len(y):
         raise ValueError("Number of features in x must match the number of labels in y.")
-    
+
     # Create a column of 1s
     ones_col = np.ones((x1.shape[0], 1), dtype=x1.dtype)
     # Add the column of 1s to the beginning of the array
