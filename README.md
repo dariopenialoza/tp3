@@ -30,6 +30,5 @@ python3 main.py
 
 ### Grupo 8
 ## Integrantes
-+ Baquero Suárez Mauro
 + Peñaloza, Dario Alejandro
 + Perez Mosquera, Mariano
