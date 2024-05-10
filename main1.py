@@ -15,11 +15,12 @@ from src.perceptron_simple_step import perceptron_simple_step, perceptron_simple
 
 def main1():
     
-    eta = 0.01
-    epoch = 2500
+    eta = 0.001
+    epoch = 500
 
     print('EJERCIO 1')
-
+    """
+    print()
     print("Función lógica AND")
     x1 = np.array([[-1, 1], [1, -1], [-1, -1], [1, 1]])
     y1 = np.array([-1, -1, -1, 1])
@@ -31,6 +32,7 @@ def main1():
     #w1v2 = perceptron_simple2v(x1,y1,eta,epoch)
     #print()
     print("Entrenando con Perceptron Simple Escalon")
+    print(f'eta={eta}, epochs={epoch}')
     w1, error = perceptron_simple_step(x1, y1, eta, epoch)
     print(f"Pesos finales: {w1}, error: {error}")
 
@@ -45,6 +47,7 @@ def main1():
     print(x1)
     print(f"Resultado: {y_res1}")
 
+    """
     print()
     print("Función lógica XOR")
     x2 = np.array([[-1, 1], [1, -1], [-1, -1], [1, 1]])
@@ -56,6 +59,7 @@ def main1():
     #perceptron_simple2v(x2,y2,eta,epoch)
     #print()
     print("Entrenando con Perceptron Simple Escalon")
+    print(f'eta={eta}, epochs={epoch}')
     w2, error2 = perceptron_simple_step(x2, y2, eta, epoch)
     print(f"Pesos finales: {w2}, error: {error2}")
 
@@ -64,6 +68,7 @@ def main1():
     print(f"Entrada: ")
     print(x2)
     print(f"Resultado: {y_res2}")
+    
 
 if __name__ == "__main__":
     main1()

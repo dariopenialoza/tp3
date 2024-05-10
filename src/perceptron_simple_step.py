@@ -1,3 +1,4 @@
+import csv
 import numpy as np
 
 def compute_error_step(x, y, w):
@@ -61,7 +62,9 @@ def perceptron_simple_step(x1, y, eta, epoch):
     min_error = np.inf  
     w_min = np.copy(w)
     c = 0
-    while (min_error > 0) and (c < epoch):
+    error_por_c = []
+    #while (min_error > 0) and (c < epoch):
+    while (c < epoch):
         u = np.random.randint(0, len(x))
         #print(f'u={u}')
         
@@ -82,8 +85,12 @@ def perceptron_simple_step(x1, y, eta, epoch):
             w_min = np.copy(w)
             #print(f'En la corrida {c} del la fila {u} con error={error} garde los pesos')
             #print(f'Guarde estos valores: {w_min}')
-
+        error_por_c.append([c,error])
         c +=1
+
+    with open(f'perceptron_simple_step_error_c-{epoch}-{eta}.csv', 'w', newline='') as archivo:
+        escritor_csv = csv.writer(archivo)
+        escritor_csv.writerows(error_por_c)
 
     return w_min, min_error
 
