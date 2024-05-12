@@ -9,7 +9,8 @@ def norm_to_im(x,y,a,b):
     x = ((x -y_min)/(y_max - y_min)) * (b-a)+a
     return x, y
 
-def perceptron_simple_nolineal_predictor(x1, w, beta):
+def perceptron_simple_nolineal_predictor(x0,y0, w, beta):
+    x1, y = norm_to_im(x0, y0, -1, 1)
     # Create a column of 1s
     ones_col = np.ones((x1.shape[0], 1), dtype=x1.dtype)
     # Add the column of 1s to the beginning of the array
@@ -43,7 +44,7 @@ def compute_error_nolineal(x, y, w, beta):
     error = np.mean((y - o) ** 2)  # Calculate MSE using vectorized operations
     return error
 
-def perceptron_simple_nolineal(x0, y0, beta, learning_rate, epsilon, epoch):
+def perceptron_simple_nolineal(x0, y0, beta, learning_rate, epsilon, epoch, num_sample):
     # Check input data shapes and types
     if not isinstance(x0, np.ndarray) or not isinstance(y0, np.ndarray):
         raise TypeError("Input arrays must be NumPy arrays.")
@@ -86,11 +87,12 @@ def perceptron_simple_nolineal(x0, y0, beta, learning_rate, epsilon, epoch):
                 #print(f'Guarde estos valores: {w_min}')
         error_por_c.append([c,error]) 
         c +=1
-    with open(f'perceptron_simple_NOlineal_error_c-{epoch}-{learning_rate}-{beta}.csv', 'w', newline='') as archivo:
+    with open(f'perceptron_simple_NOlineal_error_c-{epoch}-{learning_rate}-{beta}-{num_sample}.csv', 'w', newline='') as archivo:
         escritor_csv = csv.writer(archivo)
         escritor_csv.writerows(error_por_c)
     return w_min, min_error
 
+"""
 def perceptron_simple_nolineal_u(x0, y0, beta, learning_rate, epsilon, epoch):
     # Check input data shapes and types
     if not isinstance(x0, np.ndarray) or not isinstance(y0, np.ndarray):
@@ -196,3 +198,53 @@ def perceptron_simple_nolineal_k(x0, y0, beta, learning_rate, epsilon, epoch, k_
                 #print(f'Guarde estos valores: {w_min}')
             c +=1
     return w_min, min_error
+"""
+
+
+def comparar_con_error(valor1, valor2, error_permitido=1e-2):
+    """
+    Compara dos valores numéricos considerando un error permitido.
+    Devuelve 1 si los valores son iguales dentro del rango de error, 0 en caso contrario.
+    """
+    return int(np.isclose(valor1, valor2, atol=error_permitido))
+
+def crossvalidation_nolineal(x, y, k,beta,learning_rate, epsilon, epoch,error_permitido_comp):
+    # Dividir en k partes
+    div_x = np.array_split(x, k, axis=0)
+    div_y = np.array_split(y, k)
+
+    min_error = np.inf
+    max_num_coincidencias = 0
+
+    print(f'PERCEPTRON SIMPLE NOLINEAL learning_rate={learning_rate}, epochs={epoch}')
+    for i in range(k):
+        x_training = np.concatenate(div_x[:i] + div_x[i+1:])
+        y_training = np.concatenate(div_y[:i] + div_y[i+1:])
+        x_test = div_x[i]
+        y_test = div_y[i]
+        #print(f'x_test {x_test}')
+        #print(f'y_test {y_test}')
+        #print(f'x_training {x_training}')
+        #print(f'y_training {y_training}')
+        print(f'Muestra k= {i} ')
+        w, error = perceptron_simple_nolineal(x_training, y_training, beta, learning_rate, epsilon, epoch,i)
+        
+        print(f'Pesos: {w}, error: {error}')
+        y_result = perceptron_simple_nolineal_predictor(x_test,y_test,w,beta)
+
+        coincidencias = np.array([comparar_con_error(y_i, y_result_i,error_permitido_comp) for y_i, y_result_i in zip(y_test, y_result)])
+        num_coincidencias = np.sum(coincidencias)
+        #print(f'Coincidencias: {coincidencias}')
+        print(f'Porcentaje de coincidencias: {num_coincidencias / len(y_test) * 100}%')
+        #print(y_test)
+        #print(y_result)
+        if num_coincidencias > max_num_coincidencias:
+            max_num_coincidencias = num_coincidencias
+            min_error = error
+            min_w = w
+        if num_coincidencias == max_num_coincidencias:
+            if error < min_error:
+                min_error = error
+                min_w = w
+    print(f'Pesos finales: {min_w}, error min: {min_error}, Porcentaje de coincidencias: {max_num_coincidencias / len(y_test) * 100}%')
+    return min_w, min_error
