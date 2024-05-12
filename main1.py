@@ -19,7 +19,7 @@ def main1():
     epoch = 500
 
     print('EJERCIO 1')
-    """
+
     print()
     print("Función lógica AND")
     x1 = np.array([[-1, 1], [1, -1], [-1, -1], [1, 1]])
@@ -32,7 +32,7 @@ def main1():
     #w1v2 = perceptron_simple2v(x1,y1,eta,epoch)
     #print()
     print("Entrenando con Perceptron Simple Escalon")
-    print(f'eta={eta}, epochs={epoch}')
+    print(f'learning_rate={eta}, epochs={epoch}')
     w1, error = perceptron_simple_step(x1, y1, eta, epoch)
     print(f"Pesos finales: {w1}, error: {error}")
 
@@ -47,7 +47,7 @@ def main1():
     print(x1)
     print(f"Resultado: {y_res1}")
 
-    """
+
     print()
     print("Función lógica XOR")
     x2 = np.array([[-1, 1], [1, -1], [-1, -1], [1, 1]])
@@ -59,7 +59,7 @@ def main1():
     #perceptron_simple2v(x2,y2,eta,epoch)
     #print()
     print("Entrenando con Perceptron Simple Escalon")
-    print(f'eta={eta}, epochs={epoch}')
+    print(f'learning_rate={eta}, epochs={epoch}')
     w2, error2 = perceptron_simple_step(x2, y2, eta, epoch)
     print(f"Pesos finales: {w2}, error: {error2}")
 

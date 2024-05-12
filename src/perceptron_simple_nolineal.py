@@ -1,3 +1,4 @@
+import csv
 import random
 import numpy as np
 
@@ -65,6 +66,7 @@ def perceptron_simple_nolineal(x0, y0, beta, learning_rate, epsilon, epoch):
     min_error = np.inf
     w_min = np.copy(dw)
     c = 0
+    error_por_c = []
     while (min_error > epsilon) and (c < epoch):
         for u in range(len(x)):
             # Calcular la salida bruta
@@ -82,7 +84,11 @@ def perceptron_simple_nolineal(x0, y0, beta, learning_rate, epsilon, epoch):
                 w_min = np.copy(w)
                 #print(f'En la corrida {c} del la fila {u} con error={error}')
                 #print(f'Guarde estos valores: {w_min}')
+        error_por_c.append([c,error]) 
         c +=1
+    with open(f'perceptron_simple_NOlineal_error_c-{epoch}-{learning_rate}-{beta}.csv', 'w', newline='') as archivo:
+        escritor_csv = csv.writer(archivo)
+        escritor_csv.writerows(error_por_c)
     return w_min, min_error
 
 def perceptron_simple_nolineal_u(x0, y0, beta, learning_rate, epsilon, epoch):
@@ -128,27 +134,24 @@ def perceptron_simple_nolineal_u(x0, y0, beta, learning_rate, epsilon, epoch):
         c +=1
     return w_min, min_error
 
-def getTrainingSet(x,y,k):
-     # Crear una lista de índices aleatorios
+def getTrainingSet(x,y,k_perc):
+    # Crear una lista de índices aleatorios
     indices_aleatorios = random.sample(range(len(x)), len(x))
 
     # Reordenar los vectores utilizando los índices aleatorios
     x_reordenado = [x[i] for i in indices_aleatorios]
     y_reordenado = [y[i] for i in indices_aleatorios]
-    #print("vector 1:", x_reordenado)
-    #print("ector 2:", y_reordenado)
 
-    # Dividir el conjunto ordenado en 4 subconjuntos
-    # Dividir vector1 en k partes
-    div_x = np.array_split(x_reordenado, k, axis=0)
+    k = int(len(x) * k_perc)
+    # Dividir los arrays desordenados
+    x_training = x_reordenado[:k]
+    x_test = x_reordenado[k:]
+    y_training = y_reordenado[:k]
+    y_test = y_reordenado[k:]
 
-    # Dividir vector2 en k partes
-    div_y = np.array_split(y_reordenado, k)
-    #print(f'div_x {div_x}')
-    #print(f'div_y {div_y}')
-    return div_x, div_y
+    return x_training, x_test, y_training, y_test
 
-def perceptron_simple_nolineal_k(x0, y0, beta, learning_rate, epsilon, epoch):
+def perceptron_simple_nolineal_k(x0, y0, beta, learning_rate, epsilon, epoch, k_perc):
     # Check input data shapes and types
     if not isinstance(x0, np.ndarray) or not isinstance(y0, np.ndarray):
         raise TypeError("Input arrays must be NumPy arrays.")
@@ -172,7 +175,7 @@ def perceptron_simple_nolineal_k(x0, y0, beta, learning_rate, epsilon, epoch):
     w_min = np.copy(dw)
     c = 0
 
-    sub_x, sub_y = getTrainingSet(x, y, 2)
+    sub_x, x_test, sub_y, y_test= getTrainingSet(x, y, k_perc)
 
     while (min_error > epsilon) and (c < epoch):
         for u in range(len(sub_x[0])):

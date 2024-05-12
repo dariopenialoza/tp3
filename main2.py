@@ -5,14 +5,16 @@ import pandas as pd
 
 import sys
 sys.path.append("src")
-from src.perceptron_simple_nolineal import perceptron_simple_nolineal, perceptron_simple_nolineal_k
-from src.perceptron_simple_lineal import perceptron_simple_lineal, perceptron_simple_lineal_k
+from src.perceptron_simple_nolineal import perceptron_simple_nolineal
+from src.perceptron_simple_lineal import perceptron_simple_lineal, getTrainingSet
 
 def main2():
 
     beta = 1.0
-    learning_rate = 0.01
-    epoch = 2500
+    learning_rate = 0.1
+    epoch = 1000
+
+    K_perc = 0.8
 
     print('EJERCIO 2')
     epsilon = 0.01
@@ -28,21 +30,21 @@ def main2():
     # Extract target column (y) into 'y' array
     y3 = datos_array[:, -1]
 
+    x_training, x_test, y_training, y_test = getTrainingSet(x3, y3, K_perc)
+
     print("Entrenando con Perceptron Simple Lineal")
-    w3, error3 = perceptron_simple_lineal(x3, y3, learning_rate, epsilon, epoch)
+    print(f'learning_rate={learning_rate}, epochs={epoch}')
+    w3, error3 = perceptron_simple_lineal(x_training, y_training, learning_rate, epsilon, epoch)
     print(f"Pesos finales: {w3}, error: {error3}")
 
-    print("Entrenando con Perceptron Simple Lineal K")
-    w4, error4 = perceptron_simple_lineal_k(x3, y3, learning_rate, epsilon, epoch)
-    print(f"Pesos finales: {w4}, error: {error4}")
+ 
 
     print("Entrenando con Perceptron Simple No Lineal")
-    w5, error5 = perceptron_simple_nolineal(x3, y3, beta, learning_rate, epsilon, epoch)
+    print(f'learning_rate={learning_rate}, epochs={epoch} beta={beta}')
+    w5, error5 = perceptron_simple_nolineal(x_training, y_training, beta, learning_rate, epsilon, epoch)
     print(f"Pesos finales: {w5}, error: {error5}")
 
-    print("Entrenando con Perceptron Simple No Lineal K")
-    w6, error6 = perceptron_simple_nolineal_k(x3, y3, beta, learning_rate, epsilon, epoch)
-    print(f"Pesos finales: {w6}, error: {error6}")
+
 
 
 if __name__ == "__main__":
