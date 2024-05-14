@@ -246,7 +246,7 @@ def comparar_con_error(valor1, valor2, error_permitido=1e-2):
     """
     return int(np.isclose(valor1, valor2, atol=error_permitido))
 
-def crossvalidation(x, y, k,learning_rate, epsilon, epoch,error_permitido_comp):
+def crossvalidation_lineal_compare(x, y, k,learning_rate, epsilon, epoch,error_permitido_comp):
     # Dividir en k partes
     div_x = np.array_split(x, k, axis=0)
     div_y = np.array_split(y, k)
@@ -287,7 +287,7 @@ def crossvalidation(x, y, k,learning_rate, epsilon, epoch,error_permitido_comp):
     print(f'Pesos finales: {min_w}, error min: {min_error}, Porcentaje de coincidencias: {max_num_coincidencias / len(y_test) * 100}%')
     return min_w, min_error
 
-def crossvalidation_error_estimacion(x, y, k,learning_rate, epsilon, epoch):
+def crossvalidation_lineal_error_estimacion(x, y, k,learning_rate, epsilon, epoch):
     # Dividir en k partes
     div_x = np.array_split(x, k, axis=0)
     div_y = np.array_split(y, k)
@@ -302,15 +302,15 @@ def crossvalidation_error_estimacion(x, y, k,learning_rate, epsilon, epoch):
         x_test = div_x[i]
         y_test = div_y[i]
 
-        print(f'Muestra k= {i} ')
+        #print(f'Muestra k= {i} ')
         w, error = perceptron_simple_lineal(x_training, y_training, learning_rate, epsilon, epoch,i)
         
-        print(f'Error (MSE): {error}')
+        #print(f'Error (MSE): {error}')
         y_result = perceptron_simple_lineal_predictor(x_test,w)
         #TESTING
         error_predictor = perceptron_simple_lineal_predictor_error(y_test,y_result)
 
-        print(f"Error(MSE) de estimación: {error_predictor}")
+        #print(f"Error(MSE) de estimación: {error_predictor}")
 
         if error_predictor < min_error_predictor:
             min_error_predictor = error_predictor
@@ -323,10 +323,10 @@ def crossvalidation_error_estimacion(x, y, k,learning_rate, epsilon, epoch):
                 min_w = w
 
     print(f'Pesos finales: {min_w}, \n error(MSE): {min_error}, \n error min estimación: {min_error_predictor} ')
-    return min_w, min_error
+    return min_w, min_error, min_error_predictor
 
 
-def crossvalidation_error(x, y, k,learning_rate, epsilon, epoch):
+def crossvalidation_lineal_error(x, y, k,learning_rate, epsilon, epoch):
     # Dividir en k partes
     div_x = np.array_split(x, k, axis=0)
     div_y = np.array_split(y, k)
