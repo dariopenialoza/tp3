@@ -97,6 +97,7 @@ def perceptron_simple_nolineal(x0, y0, beta, learning_rate, epsilon, epoch, num_
     with open(f'perceptron_simple_NOlineal_error_c-{epoch}-{learning_rate}-{beta}-{num_sample}.csv', 'w', newline='') as archivo:
         escritor_csv = csv.writer(archivo)
         escritor_csv.writerows(error_por_c)
+        print('escribiendo')
     return w_min, min_error
 
 """

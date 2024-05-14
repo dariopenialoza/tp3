@@ -28,9 +28,10 @@ def main2():
     epoch = 2500
     K_perc = 0.8
 
+
     x_training, x_test, y_training, y_test = getTrainingSet(x3, y3, K_perc)
 
-    # CON LEARNING RATE 0.1 Y EPOCHS 2500
+    """# VARIANDO LEARNING-RATE
     learning_rate = 0.01
 
     #TRAINING
@@ -110,8 +111,86 @@ def main2():
     y3nol_result = perceptron_simple_nolineal_predictor(x_test, y_test, w5, beta)
     error5_predictor = perceptron_simple_nolineal_predictor_error(y_test,y3nol_result)
     print(f"error(MSE) de estimación: {error5_predictor}")
+    
+
+    learning_rate = 0.01
+    # VARIANDO BETA
+    beta=0.001
+    print()
+    #TRAINING
+    print("Entrenando con Perceptron Simple No Lineal")
+    print(f'learning_rate={learning_rate}, epochs={epoch} beta={beta}')
+    w5, error5 = perceptron_simple_nolineal(x_training, y_training, beta, learning_rate, epsilon, epoch,0)
+    print(f"error(MSE): {error5}")
+
+    #TESTING
+    y3nol_result = perceptron_simple_nolineal_predictor(x_test, y_test, w5, beta)
+    error5_predictor = perceptron_simple_nolineal_predictor_error(y_test,y3nol_result)
+    print(f"error(MSE) de estimación: {error5_predictor}")
+
+    print()
+
+    beta=0.01
+    print()
+    #TRAINING
+    print("Entrenando con Perceptron Simple No Lineal")
+    print(f'learning_rate={learning_rate}, epochs={epoch} beta={beta}')
+    w5, error5 = perceptron_simple_nolineal(x_training, y_training, beta, learning_rate, epsilon, epoch,1)
+    print(f"error(MSE): {error5}")
+
+    #TESTING
+    y3nol_result = perceptron_simple_nolineal_predictor(x_test, y_test, w5, beta)
+    error5_predictor = perceptron_simple_nolineal_predictor_error(y_test,y3nol_result)
+    print(f"error(MSE) de estimación: {error5_predictor}")
+
+    print()
+
+    beta=0.1   
+
+    print()    
+    #TRAINING
+    print("Entrenando con Perceptron Simple No Lineal")
+    print(f'learning_rate={learning_rate}, epochs={epoch} beta={beta}')
+    w5, error5 = perceptron_simple_nolineal(x_training, y_training, beta, learning_rate, epsilon, epoch,2)
+    print(f"error(MSE): {error5}")
+
+    #TESTING
+    y3nol_result = perceptron_simple_nolineal_predictor(x_test, y_test, w5, beta)
+    error5_predictor = perceptron_simple_nolineal_predictor_error(y_test,y3nol_result)
+    print(f"error(MSE) de estimación: {error5_predictor}")
+
+    print()
+    beta=1.0
+
+    print()
+    #TRAINING
+    print("Entrenando con Perceptron Simple No Lineal")
+    print(f'learning_rate={learning_rate}, epochs={epoch} beta={beta}')
+    w5, error5 = perceptron_simple_nolineal(x_training, y_training, beta, learning_rate, epsilon, epoch,3)
+    print(f"error(MSE): {error5}")
+
+    #TESTING
+    y3nol_result = perceptron_simple_nolineal_predictor(x_test, y_test, w5, beta)
+    error5_predictor = perceptron_simple_nolineal_predictor_error(y_test,y3nol_result)
+    print(f"error(MSE) de estimación: {error5_predictor}")
+
+    print()
+    beta=1.1
+
+    print()
+    #TRAINING
+    print("Entrenando con Perceptron Simple No Lineal")
+    print(f'learning_rate={learning_rate}, epochs={epoch} beta={beta}')
+    w5, error5 = perceptron_simple_nolineal(x_training, y_training, beta, learning_rate, epsilon, epoch,4)
+    print(f"error(MSE): {error5}")
+
+    #TESTING
+    y3nol_result = perceptron_simple_nolineal_predictor(x_test, y_test, w5, beta)
+    error5_predictor = perceptron_simple_nolineal_predictor_error(y_test,y3nol_result)
+    print(f"error(MSE) de estimación: {error5_predictor}")
 
 
+    
     print()
     print('CROSS VALIDATION')
     k=4
@@ -119,7 +198,29 @@ def main2():
     w,e = crossvalidation_error(x3, y3, k, learning_rate, epsilon, epoch)
     print()
     w,e = crossvalidation_error(x3, y3, k, beta,learning_rate, epsilon, epoch)
+    """
+    learning_rate = 0.01
+    epsilon=0.00001
+    beta = 1.0
+    
+    for k_perc in [0.5, 0.6, 0.7, 0.8, 0.9]:
+        x_training, x_test, y_training, y_test = getTrainingSet(x3, y3, k_perc)
+        #print()
+        #print(f'K={k_perc}')
+        #print('PERCEPTRON SIMPLE LINEAL')
+        #w1, e = perceptron_simple_lineal(x_training, y_training, learning_rate, epsilon, epoch, k_perc)
+        #print(f"error(MSE): {e}")
+        #y3l_result = perceptron_simple_lineal_predictor(x_test, w1)
+        #error3_predictor = perceptron_simple_lineal_predictor_error(y_test,y3l_result)
+        #print(f"error(MSE) de estimación: {error3_predictor}")
 
+        print()
+        print('PERCEPTRON SIMPLE NO LINEAL')
+        w2, e = perceptron_simple_nolineal(x_training, y_training, beta, learning_rate, epsilon, epoch, K_perc)
+        print(f"error(MSE): {e}")
+        #y3nol_result = perceptron_simple_nolineal_predictor(x_test, y_test, w2, beta)
+        #error5_predictor = perceptron_simple_nolineal_predictor_error(y_test,y3nol_result)
+        #print(f"error(MSE) de estimación: {error5_predictor}")
 
 if __name__ == "__main__":
     main2()
