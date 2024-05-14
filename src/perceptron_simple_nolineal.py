@@ -9,6 +9,7 @@ def norm_to_im(x,y,a,b):
     x = ((x -y_min)/(y_max - y_min)) * (b-a)+a
     return x, y
 
+
 def perceptron_simple_nolineal_predictor(x0,y0, w, beta):
     x1, y = norm_to_im(x0, y0, -1, 1)
     # Create a column of 1s
@@ -23,6 +24,11 @@ def perceptron_simple_nolineal_predictor(x0,y0, w, beta):
         # Aplicar la función de activación lineal (identity function)
         o[u] = np.tanh(beta * h)
     return o
+
+def perceptron_simple_nolineal_predictor_error(y1,y2):
+    # Calculate mean squared error (MSE)
+    error = np.mean((y1 - y2) ** 2)
+    return error
 
 def compute_error_nolineal(x, y, w, beta):
     # Check input data shapes and types
@@ -60,7 +66,8 @@ def perceptron_simple_nolineal(x0, y0, beta, learning_rate, epsilon, epoch, num_
     #print(x[:5, :])
 
     # Initialize weights randomly using higher precision float type (float64)
-    w = np.random.rand(x.shape[1]).astype(np.float64)
+    #w = np.random.rand(x.shape[1]).astype(np.float64)
+    w = np.random.uniform(-1, 1, size=x.shape[1]).astype(np.float64)
     dw = np.zeros_like(w, dtype=np.float64)
     # Initialize variables for tracking minimum error and best weights
     error = 0.0
@@ -85,7 +92,7 @@ def perceptron_simple_nolineal(x0, y0, beta, learning_rate, epsilon, epoch, num_
                 w_min = np.copy(w)
                 #print(f'En la corrida {c} del la fila {u} con error={error}')
                 #print(f'Guarde estos valores: {w_min}')
-        error_por_c.append([c,error]) 
+        error_por_c.append([c,min_error]) 
         c +=1
     with open(f'perceptron_simple_NOlineal_error_c-{epoch}-{learning_rate}-{beta}-{num_sample}.csv', 'w', newline='') as archivo:
         escritor_csv = csv.writer(archivo)
@@ -135,7 +142,7 @@ def perceptron_simple_nolineal_u(x0, y0, beta, learning_rate, epsilon, epoch):
             #print(f'Guarde estos valores: {w_min}')
         c +=1
     return w_min, min_error
-
+"""
 def getTrainingSet(x,y,k_perc):
     # Crear una lista de índices aleatorios
     indices_aleatorios = random.sample(range(len(x)), len(x))
@@ -152,7 +159,7 @@ def getTrainingSet(x,y,k_perc):
     y_test = y_reordenado[k:]
 
     return x_training, x_test, y_training, y_test
-
+"""
 def perceptron_simple_nolineal_k(x0, y0, beta, learning_rate, epsilon, epoch, k_perc):
     # Check input data shapes and types
     if not isinstance(x0, np.ndarray) or not isinstance(y0, np.ndarray):
@@ -247,4 +254,73 @@ def crossvalidation_nolineal(x, y, k,beta,learning_rate, epsilon, epoch,error_pe
                 min_error = error
                 min_w = w
     print(f'Pesos finales: {min_w}, error min: {min_error}, Porcentaje de coincidencias: {max_num_coincidencias / len(y_test) * 100}%')
+    return min_w, min_error
+
+def crossvalidation_error_estimacion(x, y, k,beta, learning_rate, epsilon, epoch):
+    # Dividir en k partes
+    div_x = np.array_split(x, k, axis=0)
+    div_y = np.array_split(y, k)
+
+    min_error = np.inf
+    min_error_predictor = np.inf
+
+    print(f'PERCEPTRON SIMPLE NO LINEAL learning_rate={learning_rate}, epochs={epoch}')
+    for i in range(k):
+        x_training = np.concatenate(div_x[:i] + div_x[i+1:])
+        y_training = np.concatenate(div_y[:i] + div_y[i+1:])
+        x_test = div_x[i]
+        y_test = div_y[i]
+
+        print(f'Muestra k= {i} ')
+        w, error = perceptron_simple_nolineal(x_training, y_training, beta, learning_rate, epsilon, epoch,i)
+        
+        print(f'Error (MSE): {error}')
+        y_result = perceptron_simple_nolineal_predictor(x_test,y_test,w,beta)
+        #TESTING
+        error_predictor = perceptron_simple_nolineal_predictor_error(y_test,y_result)
+
+        print(f"Error(MSE) de estimación: {error_predictor}")
+
+        if error_predictor < min_error_predictor:
+            min_error_predictor = error_predictor
+            min_error = error
+            min_w = w
+
+        if error_predictor == min_error_predictor:
+            if error < min_error:
+                min_error = error
+                min_w = w
+
+    print(f'Pesos finales: {min_w}, \n error(MSE): {min_error}, \n error min estimación: {min_error_predictor} ')
+    return min_w, min_error
+
+def crossvalidation_error(x, y, k,beta, learning_rate, epsilon, epoch):
+    # Dividir en k partes
+    div_x = np.array_split(x, k, axis=0)
+    div_y = np.array_split(y, k)
+
+    min_error = np.inf
+
+    print(f'PERCEPTRON SIMPLE NO LINEAL learning_rate={learning_rate}, epochs={epoch}')
+    for i in range(k):
+        x_training = np.concatenate(div_x[:i] + div_x[i+1:])
+        y_training = np.concatenate(div_y[:i] + div_y[i+1:])
+        x_test = div_x[i]
+        y_test = div_y[i]
+
+        print(f'Muestra k= {i} ')
+        w, error = perceptron_simple_nolineal(x_training, y_training, beta, learning_rate, epsilon, epoch,i)
+        
+        print(f'Error (MSE): {error}')
+        y_result = perceptron_simple_nolineal_predictor(x_test,y_test,w,beta)
+        #TESTING
+        error_predictor = perceptron_simple_nolineal_predictor_error(y_test,y_result)
+
+        print(f"Error(MSE) de estimación: {error_predictor}")
+
+        if error < min_error:
+            min_error = error
+            min_w = w
+
+    print(f'Pesos finales: {min_w}, \n error(MSE): {min_error}')
     return min_w, min_error

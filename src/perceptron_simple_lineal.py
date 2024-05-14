@@ -35,6 +35,11 @@ def perceptron_simple_lineal_predictor(x1, w):
         o[u] = h
     return o
 
+def perceptron_simple_lineal_predictor_error(y1,y2):
+    # Calculate mean squared error (MSE)
+    error = np.mean((y1 - y2) ** 2)
+    return error
+
 def compute_error_lineal(x, y, w):
     # Check input data shapes and types
     if not isinstance(x, np.ndarray) or not isinstance(y, np.ndarray) or not isinstance(w, np.ndarray):
@@ -101,7 +106,7 @@ def perceptron_simple_lineal(x1, y, learning_rate, epsilon, epoch, num_sample):
                 w_min = np.copy(w)
                 #print(f'En la corrida {c} del la fila {u} con error={error}')
                 #print(f'Guarde estos valores: {w_min}')
-        error_por_c.append([c,error])        
+        error_por_c.append([c,min_error])        
         c +=1
 
     with open(f'perceptron_simple_lineal_error_c-{epoch}-{learning_rate}-{num_sample}.csv', 'w', newline='') as archivo:
@@ -170,7 +175,7 @@ def getTrainingSet_split(x,y,k):
     #print(f'div_x {div_x}')
     #print(f'div_y {div_y}')
     return div_x, div_y
-
+"""
 def getTrainingSet(x,y,k_perc):
     # Crear una lista de índices aleatorios
     indices_aleatorios = random.sample(range(len(x)), len(x))
@@ -187,7 +192,7 @@ def getTrainingSet(x,y,k_perc):
     y_test = np.array(y_reordenado[k:])
 
     return x_training, x_test, y_training, y_test
-
+"""
 def perceptron_simple_lineal_k(x1, y, learning_rate, epsilon, epoch, k_perc):
     # Check input data shapes and types
     if not isinstance(x1, np.ndarray) or not isinstance(y, np.ndarray):
@@ -280,4 +285,74 @@ def crossvalidation(x, y, k,learning_rate, epsilon, epoch,error_permitido_comp):
                 min_error = error
                 min_w = w
     print(f'Pesos finales: {min_w}, error min: {min_error}, Porcentaje de coincidencias: {max_num_coincidencias / len(y_test) * 100}%')
+    return min_w, min_error
+
+def crossvalidation_error_estimacion(x, y, k,learning_rate, epsilon, epoch):
+    # Dividir en k partes
+    div_x = np.array_split(x, k, axis=0)
+    div_y = np.array_split(y, k)
+
+    min_error = np.inf
+    min_error_predictor = np.inf
+
+    print(f'PERCEPTRON SIMPLE LINEAL learning_rate={learning_rate}, epochs={epoch}')
+    for i in range(k):
+        x_training = np.concatenate(div_x[:i] + div_x[i+1:])
+        y_training = np.concatenate(div_y[:i] + div_y[i+1:])
+        x_test = div_x[i]
+        y_test = div_y[i]
+
+        print(f'Muestra k= {i} ')
+        w, error = perceptron_simple_lineal(x_training, y_training, learning_rate, epsilon, epoch,i)
+        
+        print(f'Error (MSE): {error}')
+        y_result = perceptron_simple_lineal_predictor(x_test,w)
+        #TESTING
+        error_predictor = perceptron_simple_lineal_predictor_error(y_test,y_result)
+
+        print(f"Error(MSE) de estimación: {error_predictor}")
+
+        if error_predictor < min_error_predictor:
+            min_error_predictor = error_predictor
+            min_error = error
+            min_w = w
+
+        if error_predictor == min_error_predictor:
+            if error < min_error:
+                min_error = error
+                min_w = w
+
+    print(f'Pesos finales: {min_w}, \n error(MSE): {min_error}, \n error min estimación: {min_error_predictor} ')
+    return min_w, min_error
+
+
+def crossvalidation_error(x, y, k,learning_rate, epsilon, epoch):
+    # Dividir en k partes
+    div_x = np.array_split(x, k, axis=0)
+    div_y = np.array_split(y, k)
+
+    min_error = np.inf
+
+    print(f'PERCEPTRON SIMPLE LINEAL learning_rate={learning_rate}, epochs={epoch}')
+    for i in range(k):
+        x_training = np.concatenate(div_x[:i] + div_x[i+1:])
+        y_training = np.concatenate(div_y[:i] + div_y[i+1:])
+        x_test = div_x[i]
+        y_test = div_y[i]
+
+        print(f'Muestra k= {i} ')
+        w, error = perceptron_simple_lineal(x_training, y_training, learning_rate, epsilon, epoch,i)
+        
+        print(f'Error (MSE): {error}')
+        y_result = perceptron_simple_lineal_predictor(x_test,w)
+        #TESTING
+        error_predictor = perceptron_simple_lineal_predictor_error(y_test,y_result)
+
+        print(f"Error(MSE) de estimación: {error_predictor}")
+
+        if error < min_error:
+            min_error = error
+            min_w = w
+
+    print(f'Pesos finales: {min_w}, \n error(MSE): {min_error}')
     return min_w, min_error

@@ -47,7 +47,7 @@ def main1():
     print(x1)
     print(f"Resultado: {y_res1}")
 
-
+"""
     print()
     print("Función lógica XOR")
     x2 = np.array([[-1, 1], [1, -1], [-1, -1], [1, 1]])
@@ -68,7 +68,7 @@ def main1():
     print(f"Entrada: ")
     print(x2)
     print(f"Resultado: {y_res2}")
-    
+"""    
 
 if __name__ == "__main__":
     main1()
